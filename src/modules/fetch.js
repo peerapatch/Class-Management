@@ -20,8 +20,10 @@ const getAllSubject = async () => {
 }
 
 const editSubject = async (payload) => {
+  console.log(payload)
   try {
     const result = await fetch.put(`/subject/editSubject/${payload.id}`, {
+
       code: payload.code,
       name: payload.name,
       credit: payload.credit,
@@ -29,7 +31,10 @@ const editSubject = async (payload) => {
       capacity: payload.capacity,
       lecturer: payload.lecturer,
       major: payload.major,
-      classroom: payload.classroom
+      classroom: payload.classroom,
+
+      period: payload.period,
+      remark: payload.remark
     })
     console.log(result.data)
     return true

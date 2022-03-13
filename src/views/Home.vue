@@ -72,7 +72,11 @@
           <v-container class="d-flex">
             <p class="align-self-center">คาบที่ 1</p>
             <v-spacer />
-            <v-text-field placeholder="จำนวนชั่วโมง" label="จำนวนชั่วโมง" v-model="hour_p1"/>
+            <v-text-field
+              placeholder="จำนวนชั่วโมง"
+              label="จำนวนชั่วโมง"
+              v-model="hour_p1"
+            />
             <v-spacer />
             <v-radio-group class="d-flex" v-model="period_1_type">
               <v-radio key="0" label="Lecture Room" value="0"></v-radio>
@@ -82,13 +86,21 @@
           <v-container class="d-flex">
             <p class="align-self-center">คาบที่ 2</p>
             <v-spacer />
-            <v-text-field placeholder="จำนวนชั่วโมง" label="จำนวนชั่วโมง" v-model="hour_p2"/>
+            <v-text-field
+              placeholder="จำนวนชั่วโมง"
+              label="จำนวนชั่วโมง"
+              v-model="hour_p2"
+            />
             <v-spacer />
             <v-radio-group class="d-flex" v-model="period_2_type">
               <v-radio key="0" label="Lecture Room" value="0"></v-radio>
               <v-radio key="1" label="Lab Room" value="1"></v-radio>
             </v-radio-group> </v-container
-          ><v-text-field placeholder="หมายเหตุ" label="หมายเหตุ" v-model="remark"/>
+          ><v-text-field
+            placeholder="หมายเหตุ"
+            label="หมายเหตุ"
+            v-model="remark"
+          />
         </v-container>
 
         <v-divider />
@@ -156,6 +168,34 @@
           />
         </v-container>
 
+        <!-- {{ editFormData }} -->
+
+        <v-container class="d-flex">
+            <p class="align-self-center">คาบที่ 1</p>
+            <v-spacer />
+            <v-text-field placeholder="จำนวนชั่วโมง" label="จำนวนชั่วโมง" v-model="editFormData.period[0].hours"/>
+            <v-spacer />
+            <v-radio-group class="d-flex" v-model="editFormData.period[0].type">
+              <v-radio key="0" label="Lecture Room" value="0"></v-radio>
+              <v-radio key="1" label="Lab Room" value="1"></v-radio>
+            </v-radio-group>
+          </v-container>
+
+          <v-container class="d-flex">
+            <p class="align-self-center">คาบที่ 2</p>
+            <v-spacer />
+            <v-text-field placeholder="จำนวนชั่วโมง" label="จำนวนชั่วโมง" v-model="editFormData.period[1].hours"/>
+            <v-spacer />
+            <v-radio-group class="d-flex" v-model="editFormData.period[1].type">
+              <v-radio key="0" label="Lecture Room" value="0"></v-radio>
+              <v-radio key="1" label="Lab Room" value="1"></v-radio>
+            </v-radio-group> </v-container
+          >
+          
+          <v-container  class="d-flex">
+            <v-text-field placeholder="หมายเหตุ" label="หมายเหตุ" v-model="editFormData.remark"/>
+          </v-container>
+
         <v-card-actions class="mx-4">
           <v-spacer />
           <v-btn
@@ -188,47 +228,47 @@
       </v-card>
     </v-dialog>
     <v-dialog v-model="showSubjectDetail">
-
       <v-card>
         <v-card-title>Subject Detail</v-card-title>
 
         <v-container class="px-8 py-8">
-         <v-row>
-           <v-col><h2>{{ selected_subject.code }} {{ selected_subject.name }}</h2> </v-col>
-         </v-row>
-           <v-row>
-           <v-col>Credit : {{ selected_subject.credit }}  </v-col>
-         </v-row>
           <v-row>
-           <v-col>Section : {{ selected_subject.section }}   </v-col>
-           <v-col>Capacity : {{ selected_subject.capacity }}   </v-col>
-         </v-row>
-             <v-row>
-           <v-col>Lecturer : {{ selected_subject.lecturer }}   </v-col>
-           <v-col>Major : {{ selected_subject.major }}   </v-col>
-         </v-row>
-    
-         <v-container  v-for="(item , index) in selected_subject.period" :key="item.data">
-           <v-row>
-             <v-col>
-               <b>Period {{ index + 1 }}</b>
-             </v-col>
-             <v-col>
-               {{ item.hours }} Hrs
-             </v-col>
-             <v-col>
-               {{ item.type === 0 ? "Lab Room" : "Lecture Room" }}
-             </v-col>
-           </v-row>
-         </v-container>
-         <v-row>
-           <v-col>หมายเหตุ : {{ selected_subject.remark }}  </v-col>
-         </v-row>
-        
-         
+            <v-col
+              ><h2>{{ selected_subject.code }} {{ selected_subject.name }}</h2>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>Credit : {{ selected_subject.credit }} </v-col>
+          </v-row>
+          <v-row>
+            <v-col>Section : {{ selected_subject.section }} </v-col>
+            <v-col>Capacity : {{ selected_subject.capacity }} </v-col>
+          </v-row>
+          <v-row>
+            <v-col>Lecturer : {{ selected_subject.lecturer }} </v-col>
+            <v-col>Major : {{ selected_subject.major }} </v-col>
+          </v-row>
+
+          <v-container
+            v-for="(item, index) in selected_subject.period"
+            :key="item.data"
+          >
+            <v-row>
+              <v-col>
+                <b>Period {{ index + 1 }}</b>
+              </v-col>
+              <v-col> {{ item.hours }} Hrs </v-col>
+              <v-col>
+                {{ item.type === 0 ? "Lab Room" : "Lecture Room" }}
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-row>
+            <v-col>หมายเหตุ : {{ selected_subject.remark }} </v-col>
+          </v-row>
         </v-container>
         <v-card-actions>
-          <v-spacer/>
+          <v-spacer />
           <v-btn width="150" @click="showSubjectDetail = false">Close</v-btn>
         </v-card-actions>
       </v-card>
@@ -236,7 +276,12 @@
   </v-container>
 </template>
 <script>
-import { getAllSubject, editSubject, deleteSubject ,createNewSubject } from "../modules/fetch";
+import {
+  getAllSubject,
+  editSubject,
+  deleteSubject,
+  createNewSubject,
+} from "../modules/fetch";
 export default {
   created() {
     this.setSubjects();
@@ -244,10 +289,9 @@ export default {
   name: "Home",
 
   methods: {
-      
     async viewSubjectDetail(subject) {
-      this.selected_subject = subject
-      this.showSubjectDetail = true
+      this.selected_subject = subject;
+      this.showSubjectDetail = true;
     },
     async setSubjects() {
       this.subjectList = await getAllSubject();
@@ -267,7 +311,6 @@ export default {
       await deleteSubject(this.selected_id);
       this.selected_id = null;
 
-      
       this.isDeleting = false;
       this.setSubjects();
     },
@@ -281,75 +324,73 @@ export default {
         capacity: this.editFormData.cap,
         lecturer: this.editFormData.lect,
         major: this.editFormData.maj,
+        period : this.editFormData.period,
+        remark : this.editFormData.remark,
         classroom: "1234",
       });
       this.isEditing = false;
     },
     async addnewSubject() {
-      
       let form = {
-        code : this.code,
-        name : this.name,
-        credit : this.credit,
-        section : this.sect,
-        capacity : this.cap,
-        lecturer : this.lect,
-        major : this.maj,
-        remark : this.remark,
-        period : [
+        code: this.code,
+        name: this.name,
+        credit: this.credit,
+        section: this.sect,
+        capacity: this.cap,
+        lecturer: this.lect,
+        major: this.maj,
+        remark: this.remark,
+        period: [
           {
-            hours : this.hour_p1,
-            type : this.period_1_type
+            hours: this.hour_p1,
+            type: this.period_1_type,
           },
           {
-            hours : this.hour_p2,
-            type : this.period_2_type
+            hours: this.hour_p2,
+            type: this.period_2_type,
           },
-        ]
+        ],
+      };
+      console.log(form);
+      // create
 
+      await createNewSubject(form);
+      this.code = "";
+      this.name = "";
+      this.credit = "";
+      this.sect = "";
+      this.cap = "";
+      this.lect = "";
+      this.maj = "";
+      (this.remark = ""),
+        (this.period_1_type = 0),
+        (this.period_2_type = 0),
+        (this.hour_p1 = 0);
+      this.hour_p2 = 0;
+      // (this.isDialogOn = false);
 
-      }
-        console.log(form)
-        // create
-
-        await createNewSubject(form)
-        this.code = ""
-        this.name = ""
-        this.credit = ""
-        this.sect = ""
-        this.cap = ""
-        this.lect = ""
-        this.maj = ""
-        this.remark = "",
-        this.period_1_type =  0,
-        this.period_2_type =  0,
-        this.hour_p1 = 0 ;
-        this.hour_p2 = 0 ;
-        // (this.isDialogOn = false);
-
-        this.setSubjects()
-        this.isDialogOn = false
+      this.setSubjects();
+      this.isDialogOn = false;
     },
   },
   data() {
     return {
+      period_1_type: 0,
+      period_2_type: 0,
+      hour_p1: 0,
+      hour_p2: 0,
 
-      period_1_type : 0,
-      period_2_type : 0,
-      hour_p1 : 0,
-      hour_p2 : 0,
-
-      selected_subject : {
-         code: "",
+      selected_subject: {
+        code: "",
         name: "",
         credit: "",
         sect: "",
         cap: "",
         lect: "",
         maj: "",
-        period : []
-      } ,
-      showSubjectDetail : false,
+        period: [],
+      },
+      showSubjectDetail: false,
       subjectList: [],
       isDialogOn: false,
       isEditing: false,
@@ -364,6 +405,11 @@ export default {
         cap: "",
         lect: "",
         maj: "",
+        remark : "",
+        period: [
+          { hours: "", type: "" },
+          { hours: "", type: "" },
+        ],
       },
 
       code: "",
@@ -373,7 +419,7 @@ export default {
       cap: "",
       lect: "",
       maj: "",
-      remark : "",
+      remark: "",
       headers: [
         {
           text: "Code",
@@ -387,7 +433,7 @@ export default {
         { text: "Capacity", value: "capacity" },
         { text: "Lecturer", value: "lecturer" },
         { text: "Major", value: "major" },
-       
+
         { text: "Action", value: "actions" },
       ],
     };
