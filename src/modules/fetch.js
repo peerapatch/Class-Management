@@ -123,5 +123,48 @@ const editLecturer = async (id, payload) => {
 // Lastname: req.body.Lastname,
 // Department: req.body.Department,
 // Type: req.body.Type
+const getAllMajor = async () => {
+  try {
+    const result = await fetch.get('/major')
 
-export { getAllSubject, editSubject, deleteSubject, createNewSubject, getAllLecturers, addNewLecturer, deleteLecturer, editLecturer }
+    if (result.status === 200) {
+      return result.data
+    } else { return false }
+  } catch (err) {
+    return false
+  }
+}
+const createNewMajor = async (payload) => {
+  try {
+    const result = await fetch.post('/major', {
+
+      faculty: payload.faculty,
+      major: payload.major,
+      year: payload.year
+
+    })
+    console.log(result)
+    if (result.status === 200) {
+      return true
+    } else {
+      console.log(result.status)
+      return false
+    }
+  } catch (err) {
+    return false
+  }
+}
+
+const deleteMajor = async (id) => {
+  console.log(id)
+  try {
+    const result = await fetch.delete(`/major/${id}`)
+    if (result.status === 200) {
+      return true
+    } else { return false }
+  } catch (err) {
+    return false
+  }
+}
+
+export { getAllSubject, editSubject, deleteSubject, createNewSubject, getAllLecturers, addNewLecturer, deleteLecturer, editLecturer, createNewMajor, getAllMajor, deleteMajor }
