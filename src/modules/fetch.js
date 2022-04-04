@@ -167,4 +167,75 @@ const deleteMajor = async (id) => {
   }
 }
 
-export { getAllSubject, editSubject, deleteSubject, createNewSubject, getAllLecturers, addNewLecturer, deleteLecturer, editLecturer, createNewMajor, getAllMajor, deleteMajor }
+const editMajor = async (id, payload) => {
+  console.log(payload.faculty)
+  try {
+    const result = await fetch.put(`/major/${id}`, {
+      faculty: payload.faculty.title,
+      major: payload.major,
+      year: payload.year
+    })
+    if (result.status === 200) {
+      return true
+    } else { return false }
+  } catch (err) {
+    return false
+  }
+}
+
+const createNewRoom = async (payload) => {
+  console.log(payload)
+  try {
+    const res = await fetch.post('/classroom', {
+      classroomID: payload.classRoomId,
+      capacity: payload.capacity,
+      type: payload.type,
+      accessory: payload.accessories
+    })
+    console.log(res)
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
+const getAllClassRoom = async () => {
+  try {
+    const result = await fetch.get('/classroom')
+
+    if (result.status === 200) {
+      return result.data
+    } else { return false }
+  } catch (err) {
+    return false
+  }
+}
+
+const editClassRoom = async (id, payload) => {
+  try {
+    const result = await fetch.put(`/classroom/${id}`, {
+      classroomID: payload.classroomID,
+      capacity: payload.capacity,
+      type: payload.type,
+      accessory: payload.accessory
+
+    })
+    if (result.status === 200) {
+      return true
+    } else { return false }
+  } catch (err) {
+    return false
+  }
+}
+const deleteClassRoom = async (id) => {
+  try {
+    const result = await fetch.delete(`/classroom/${id}`)
+    if (result.status === 200) {
+      return true
+    } else { return false }
+  } catch (err) {
+    return false
+  }
+}
+
+export { getAllSubject, editSubject, deleteSubject, createNewSubject, getAllLecturers, addNewLecturer, deleteLecturer, editLecturer, createNewMajor, getAllMajor, deleteMajor, editMajor, createNewRoom, getAllClassRoom, editClassRoom, deleteClassRoom }

@@ -1,5 +1,8 @@
 <template>
   <v-toolbar elevation="0" color="grey lighten-3">
+      <v-toolbar-items>
+      <v-btn plain @click="goTo('/time_table')">Time Table</v-btn>
+    </v-toolbar-items>
     <v-spacer />
     <v-toolbar-items>
       <v-btn plain @click="goTo('/classroom')">Classroom</v-btn>

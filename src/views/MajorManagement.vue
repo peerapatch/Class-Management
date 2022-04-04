@@ -53,11 +53,30 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+ 
+    <v-dialog v-model="isEditDialogOpen" persistent>
+      <v-card>
+        <v-card-title>Edit Major</v-card-title>
+            
+        <v-container>
+            <v-select v-model="selected.faculty" :items="faculty" item-text="title" return-object > </v-select>
+            <v-text-field v-model="selected.major"></v-text-field>
+            <v-text-field v-model="selected.year"></v-text-field>
+        </v-container>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn @click="editConfirm">Confirm</v-btn>
+          <v-btn @click="editCancel">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
   </v-container>
 </template>
 
 <script>
-import { createNewMajor  , getAllMajor , deleteMajor} from '../modules/fetch'
+import { createNewMajor  , getAllMajor , deleteMajor ,editMajor} from '../modules/fetch'
 export default {
   name: "MajorManagement",
   created() {
@@ -77,6 +96,7 @@ export default {
       majorData : [],
       isCreateDialogOpen: false,
       isDeleteDialogOpen : false,
+      isEditDialogOpen : false,
       defaultFaculty : { id: 0, title: "Collage of Computing" },
       major : "-",
       year : "2565",
@@ -91,6 +111,8 @@ export default {
     };
   },
   methods : {
+
+
     async fetchMajor() {
       let res = await getAllMajor();
       this.majorData = res.users
@@ -118,9 +140,7 @@ export default {
       this.fetchMajor()
     } ,
 
-    editMajor() {
-      
-    },
+ 
     deleteMajor(item){
       this.selected = item
       this.isDeleteDialogOpen = true
@@ -143,8 +163,29 @@ export default {
     this.selected = {}
     this.isDeleteDialogOpen = false;
 
-    }
-  }
+    },
+
+     editMajor(item) {
+    // console.log('test' , item)
+    this.isEditDialogOpen = true;
+    this.selected = item
+  },
+  async editConfirm() {
+    await editMajor( this.selected._id, this.selected)
+    this.isEditDialogOpen = false;
+    this.selected = {}
+     this.fetchMajor()
+  },
+  async editCancel() {
+    this.isEditDialogOpen = false;
+    this.selected = {}
+  },
+
+
+  },
+
+
+
 };
 </script>
 
