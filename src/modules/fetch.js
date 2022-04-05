@@ -238,4 +238,20 @@ const deleteClassRoom = async (id) => {
   }
 }
 
-export { getAllSubject, editSubject, deleteSubject, createNewSubject, getAllLecturers, addNewLecturer, deleteLecturer, editLecturer, createNewMajor, getAllMajor, deleteMajor, editMajor, createNewRoom, getAllClassRoom, editClassRoom, deleteClassRoom }
+const getLecturerByFaculty = async (payload) => {
+  console.log('test', payload)
+  try {
+    const result = await fetch.get('/lecturer/get_lecturer_by_faculty', {
+      faculty: payload
+    })
+    console.log({ faculty: payload })
+    if (result.status === 200) {
+      console.log('res', result)
+      return result.data
+    } else { return false }
+  } catch (err) {
+    return false
+  }
+}
+
+export { getLecturerByFaculty, getAllSubject, editSubject, deleteSubject, createNewSubject, getAllLecturers, addNewLecturer, deleteLecturer, editLecturer, createNewMajor, getAllMajor, deleteMajor, editMajor, createNewRoom, getAllClassRoom, editClassRoom, deleteClassRoom }

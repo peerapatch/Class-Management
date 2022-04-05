@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <!-- {{ subjectList }} -->
+    {{ maj }}
     <v-container class="d-flex flex-row justify-end">
       <v-btn
         class="green lighten white--text"
@@ -62,13 +63,18 @@
             /></v-col>
           </v-row>
 
-          <v-text-field
+          <!-- <v-text-field
             v-model="lect"
             placeholder="Lecturer"
             label="Lecturer"
-          />
-          <v-text-field v-model="maj" placeholder="Major" label="Major" />
+          /> -->
 
+          <v-select v-model="lect" placeholder="Lecturer" label="Lecturer" :items="lecturers" ></v-select>
+
+
+          <!-- <v-text-field v-model="maj" placeholder="Major" label="Major" /> -->
+          <v-select v-model="maj" placeholder="Major" label="Major" :items="majors" item-text="major" item-value="major" return-object @change="setLecturer(maj.faculty)"></v-select>
+          <b>{{ maj.faculty }}</b>
           <v-container class="d-flex">
             <p class="align-self-center">คาบที่ 1</p>
             <v-spacer />
@@ -281,14 +287,21 @@ import {
   editSubject,
   deleteSubject,
   createNewSubject,
+  getAllMajor,
+  getLecturerByFaculty
 } from "../modules/fetch";
 export default {
   created() {
     this.setSubjects();
+    this.setMajors();
   },
   name: "SubjectManagement",
 
   methods: {
+    async setMajors() {
+      let res = await getAllMajor();
+      this.majors = res.users
+    },
     async viewSubjectDetail(subject) {
       this.selected_subject = subject;
       this.showSubjectDetail = true;
@@ -338,7 +351,7 @@ export default {
         section: this.sect,
         capacity: this.cap,
         lecturer: this.lect,
-        major: this.maj,
+        major: this.maj.major,
         remark: this.remark,
         period: [
           {
@@ -372,9 +385,16 @@ export default {
       this.setSubjects();
       this.isDialogOn = false;
     },
+   async setLecturer(faculty){
+     console.log(faculty)
+      let res = await getLecturerByFaculty("Colleage of Computing")
+      console.log(res)
+    }
   },
   data() {
     return {
+      majors : [],
+      lecturers : [],
       period_1_type: 0,
       period_2_type: 0,
       hour_p1: 0,
