@@ -3,7 +3,7 @@
     
     <v-container class="d-flex flex-row">
       <v-spacer />
-      <v-btn @click="createRoom" width="150" color="green" class="white--text"
+      <v-btn @click="createRoom" width="200" color="green" class="white--text" elevation="0"
         >Create Room</v-btn
       >
     </v-container>

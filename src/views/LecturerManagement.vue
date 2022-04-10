@@ -6,6 +6,7 @@
     <v-container class="d-flex">
       <v-spacer />
       <v-btn
+      width="200"
         color="green"
         class="white--text"
         elevation="0"

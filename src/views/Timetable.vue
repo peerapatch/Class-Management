@@ -1,6 +1,5 @@
 <template>
   <v-row class="fill-height">
-    
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat>
@@ -15,8 +14,9 @@
           </v-btn>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600">
+      <v-sheet class="fill-height">
         <v-calendar
+        dark
           ref="calendar"
           v-model="focus_current_date"
           color="primary"

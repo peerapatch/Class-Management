@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar elevation="0" color="grey lighten-3">
+  <v-toolbar elevation="0" dark >
       <v-toolbar-items>
       <v-btn plain @click="goTo('/time_table')">Time Table</v-btn>
     </v-toolbar-items>
@@ -24,7 +24,7 @@ export default {
   name: "MenuPanel",
   methods: {
     goTo(path) {
-      this.$router.push(path);
+      this.$router.replace(path);
     },
   },
 };

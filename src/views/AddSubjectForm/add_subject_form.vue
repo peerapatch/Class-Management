@@ -1,8 +1,11 @@
 <template>
   <div>
-    <v-btn @click="triggerAction">Create New Subject</v-btn>
-    <v-dialog v-model="isDialogOpen">
-      <v-card>
+    <v-btn @click="triggerAction" class="green white--text" elevation="0" width="200">Create New Subject</v-btn>
+    <v-dialog v-model="isDialogOpen" max-width="1200" >
+
+
+      <v-card class="px-10">
+        <v-card-title>Create New Subject</v-card-title>
         <v-container class="mx-5 my-3">
           <v-row>
             <v-col>
@@ -166,8 +169,8 @@
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="createNewSubject">Create</v-btn>
-          <v-btn @click="closeDialog">Cancel</v-btn>
+          <v-btn width="150" class="green white--text" @click="createNewSubject">Create</v-btn>
+          <v-btn width="150"  @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

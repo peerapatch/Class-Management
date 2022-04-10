@@ -4,7 +4,7 @@
     {{ selected }} -->
     <v-container class="d-flex">
       <v-spacer></v-spacer>
-      <v-btn @click="isCreateDialogOpen = !isCreateDialogOpen">Add Major</v-btn>
+      <v-btn width="200" class="green white--text" elevation="0" @click="isCreateDialogOpen = !isCreateDialogOpen">Add Major</v-btn>
     </v-container>
     <v-container>
       <v-data-table
