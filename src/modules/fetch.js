@@ -2,7 +2,11 @@ import axios from 'axios'
 
 const fetch = axios.create({
   baseURL: 'http://localhost:9000/api/',
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json'
+  },
+
 })
 
 const getAllSubject = async () => {
@@ -32,7 +36,6 @@ const editSubject = async (payload) => {
       lecturer: payload.lecturer,
       major: payload.major,
       classroom: payload.classroom,
-
       period: payload.period,
       remark: payload.remark
     })
@@ -54,8 +57,22 @@ const deleteSubject = async (id) => {
 }
 
 const createNewSubject = async (payload) => {
+
+  console.log('create - >',payload)
   try {
-    const result = await fetch.post('/subject', payload)
+    const result = await fetch.post('/subject',  
+    {
+      
+      "major": payload.major.major,
+      "faculty" : payload.major.faculty,
+      "subject_code": payload.subject_code,
+      "subject_name": payload.subject_name,
+      "lecturer": payload.lecturer.name,
+      "section": payload.section,
+      "credit": payload.credit,
+      "period": payload.period,
+      "remark" : payload.remark,
+  })
     console.log(result)
     return true
   } catch (err) {
@@ -68,7 +85,7 @@ const getAllLecturers = async () => {
     const result = await fetch.get('lecturer')
     console.log(result.data)
     if (result.data.length !== 0) {
-      return result.data
+      return result.data.data
     } else {
       return false
     }
@@ -81,10 +98,10 @@ const addNewLecturer = async (payload) => {
   console.log('payload => ', payload)
   try {
     const result = await fetch.post('/lecturer', {
-      Firstname: payload.firstName,
-      Lastname: payload.lastName,
-      Department: payload.faculty,
-      Type: payload.type
+      first_name: payload.first_name,
+      last_name: payload.last_name,
+      faculty: payload.faculty,
+      type: payload.type.id
     })
     console.log(result)
     return true
@@ -108,10 +125,10 @@ const editLecturer = async (id, payload) => {
   try {
     const splitName = payload.name.split(' ')
     const result = await fetch.put(`/lecturer/${id}`, {
-      Firstname: splitName[0],
-      Lastname: splitName[1],
-      Department: payload.faculty,
-      Type: payload.type
+      first_name: splitName[0],
+      last_name: splitName[1],
+      faculty: payload.faculty,
+      type: payload.type.id
     })
     console.log(result)
     return true
@@ -119,10 +136,7 @@ const editLecturer = async (id, payload) => {
     return false
   }
 }
-// Firstname: req.body.Firstname,
-// Lastname: req.body.Lastname,
-// Department: req.body.Department,
-// Type: req.body.Type
+
 const getAllMajor = async () => {
   try {
     const result = await fetch.get('/major')
@@ -184,13 +198,15 @@ const editMajor = async (id, payload) => {
 }
 
 const createNewRoom = async (payload) => {
-  console.log(payload)
+  console.log('create payload -> ', payload)
   try {
+
+
     const res = await fetch.post('/classroom', {
-      classroomID: payload.classRoomId,
+      classroom_no: payload.classroom_no,
       capacity: payload.capacity,
       type: payload.type,
-      accessory: payload.accessories
+      accessories: payload.accessories
     })
     console.log(res)
     return true
@@ -212,12 +228,14 @@ const getAllClassRoom = async () => {
 }
 
 const editClassRoom = async (id, payload) => {
+  console.log('edit payload',payload)
+
   try {
     const result = await fetch.put(`/classroom/${id}`, {
-      classroomID: payload.classroomID,
+      classroom_no: payload.classroom_no,
       capacity: payload.capacity,
-      type: payload.type,
-      accessory: payload.accessory
+      type: payload.type.id,
+      accessories: payload.accessories
 
     })
     if (result.status === 200) {
@@ -239,12 +257,12 @@ const deleteClassRoom = async (id) => {
 }
 
 const getLecturerByFaculty = async (payload) => {
-  console.log('test', payload)
+  console.log('Payload -> ', payload)
   try {
-    const result = await fetch.get('/lecturer/get_lecturer_by_faculty', {
+    const result = await fetch.post('/utils/get_lecturers_by_faculty', {
       faculty: payload
     })
-    console.log({ faculty: payload })
+
     if (result.status === 200) {
       console.log('res', result)
       return result.data

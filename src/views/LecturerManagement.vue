@@ -23,9 +23,7 @@
     >
       <template v-slot:[`item.actions`]="{ item }">
         <v-icon @click="editLecturer(item)"> mdi-pencil</v-icon>
-        <v-icon @click="deleteLecturer(item)" class="red--text">
-          mdi-delete</v-icon
-        >
+        <v-icon @click="deleteLecturer(item)" class="red--text"> mdi-delete</v-icon>
       </template>
     </v-data-table>
 
@@ -40,30 +38,25 @@
         <v-card-title>Add New Lecturer</v-card-title>
         <v-container>
           <v-row>
-            <v-col
-              ><v-text-field label="Name" v-model="form.firstName"
-            /></v-col>
-            <v-col
-              ><v-text-field label="Last Name" v-model="form.lastName"
-            /></v-col>
+            <v-col><v-text-field label="Name" v-model="form.first_name" /></v-col>
+            <v-col><v-text-field label="Last Name" v-model="form.last_name" /></v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-select
-                label="Faculty"
-                :items="faculty"
-                v-model="form.faculty"
-              />
+              <v-select label="Faculty" :items="faculty" v-model="form.faculty" />
             </v-col>
             <v-col />
           </v-row>
+          {{ form.type }}
           <v-row>
             <v-col>
               <v-select
                 label="Lecturer Types"
                 :items="lecturerTypes"
                 item-text="name"
+                item-value="id"
                 v-model="form.type"
+                return-object
               />
             </v-col>
             <v-col />
@@ -72,11 +65,7 @@
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            width="150"
-            color="green"
-            class="white--text"
-            @click="addNewOne"
+          <v-btn width="150" color="green" class="white--text" @click="addNewOne"
             >Confirm</v-btn
           >
           <v-btn width="150" @click="isDialogOpen = false">Cancel</v-btn>
@@ -88,9 +77,15 @@
       <v-card>
         <v-card-title>Delete this Lecturer</v-card-title>
         <v-card-actions>
-          <v-spacer/>
-          <v-btn width="150" color="green" class="white--text" @click="confirmDelete">Delete</v-btn>
-          <v-btn width="150" color="grey" class="white--text" @click="isDeleteDialogOpen = !isDeleteDialogOpen"
+          <v-spacer />
+          <v-btn width="150" color="green" class="white--text" @click="confirmDelete"
+            >Delete</v-btn
+          >
+          <v-btn
+            width="150"
+            color="grey"
+            class="white--text"
+            @click="isDeleteDialogOpen = !isDeleteDialogOpen"
             >Cancel</v-btn
           >
         </v-card-actions>
@@ -103,9 +98,8 @@
         <!-- {{ temp_lecturer.type }} -->
         <v-container class="px-10">
           <v-text-field v-model="temp_lecturer.name" />
-          <!-- <v-text-field v-model="temp_lecturer.faculty" /> -->
-          <!-- <v-text-field v-model="temp_lecturer.type"  /> -->
-          {{ temp_lecturer.type }}
+          {{ temp_lecturer }}
+
           <v-select
             label="Faculty"
             :items="faculty"
@@ -115,23 +109,17 @@
             label="Type"
             :items="lecturerTypes"
             item-text="name"
+            item-value="id"
             v-model="temp_lecturer.type"
+            return-object
           ></v-select>
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            width="150"
-            color="green"
-            class="white--text"
-            @click="confirmEdit"
+          <v-btn width="150" color="green" class="white--text" @click="confirmEdit"
             >Save Changes</v-btn
           >
-          <v-btn
-            width="150"
-            color="grey"
-            class="white--text"
-            @click="closeEditDialog"
+          <v-btn width="150" color="grey" class="white--text" @click="closeEditDialog"
             >Cancel</v-btn
           >
         </v-card-actions>
@@ -155,19 +143,21 @@ export default {
   data() {
     return {
       temp_id: "",
-      temp_lecturer: { id: "", name: "", faculty: "", type: "" },
-      temp_type: "Normal",
+      temp_lecturer: { id: "", name: "", faculty: "", type: {} },
+      temp_type: {},
       edit_form: { id: "", name: "", faculty: "", type: "" },
-
       isDeleteDialogOpen: false,
       isEditDialogOpen: false,
       isLoading: true,
       result_lecturers: [],
       form: {
-        firstName: "",
-        lastName: "",
-        faculty: "Colleage of Computing",
-        type: "Regular",
+        first_name: "",
+        last_name: "",
+        faculty: "CoC",
+        type: {
+          id: 0,
+          name: "Regular",
+        },
       },
       //   lecturers: [],
       isDialogOpen: false,
@@ -182,12 +172,7 @@ export default {
           name: "Specialist",
         },
       ],
-      faculty: [
-        "Colleage of Computing",
-        "Faculty of International Studies",
-        "Faculty of Hospitality and Tourism",
-        "Other",
-      ],
+      faculty: ["CoC", "FIS", "FHT"],
       headers: [
         {
           text: "Name",
@@ -196,7 +181,7 @@ export default {
           value: "name",
         },
         { text: "Faculty", value: "faculty" },
-        { text: "Type", value: "type" },
+        { text: "Type", value: "type_name" },
         { text: "Action", value: "actions" },
       ],
 
@@ -207,18 +192,21 @@ export default {
   methods: {
     async getLecturers() {
       let result = await getAllLecturers();
+      console.log(result);
       this.result_lecturers = result;
       this.isLoading = false;
     },
 
     async addNewOne() {
       let result = await addNewLecturer(this.form);
-      // reset when completed
       this.form = {
-        firstName: "",
-        lastName: "",
-        faculty: "Colleage of Computing",
-        type: "Regular",
+        first_name: "",
+        last_name: "",
+        faculty: "CoC",
+        type: {
+          id: 0,
+          name: "Regular",
+        },
       };
       console.log(result);
 
@@ -245,14 +233,12 @@ export default {
     },
 
     async editLecturer(item) {
+      console.log(item);
       this.isEditDialogOpen = true;
       this.temp_lecturer = item;
     },
     async confirmEdit() {
-      let result = await editLecturer(
-        this.temp_lecturer.id,
-        this.temp_lecturer
-      );
+      let result = await editLecturer(this.temp_lecturer.id, this.temp_lecturer);
       if (result === true) {
         this.getLecturers();
         this.isEditDialogOpen = false;
@@ -266,13 +252,14 @@ export default {
   computed: {
     lecturers() {
       console.log("computed ", this.result_lecturers);
-      let result = this.result_lecturers.users.map((item) => ({
+      let result = this.result_lecturers.map((item) => ({
         id: item._id,
-        name: item.Firstname + " " + item.Lastname,
-        faculty: item.Department,
-        type: item.Type,
+        name: item.first_name + " " + item.last_name,
+        faculty: item.faculty,
+        type: item.type,
+        type_name: item.type == 0 ? "Regular" : "Specialist",
       }));
-
+      console.log(result);
       return result;
     },
   },

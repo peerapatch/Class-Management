@@ -97,14 +97,14 @@ export default {
       isCreateDialogOpen: false,
       isDeleteDialogOpen : false,
       isEditDialogOpen : false,
-      defaultFaculty : { id: 0, title: "Collage of Computing" },
+      defaultFaculty : { id: 0, title: "CoC" },
       major : "-",
       year : "2565",
       
       faculty: [
-        { id: 0, title: "Collage of Computing" },
-        { id: 1, title: "Faculty of International Studies" },
-        { id: 2, title: "Faculty of Hospitality and Tourism" },
+        { id: 0, title: "CoC" },
+        { id: 1, title: "FIS" },
+        { id: 2, title: "FHT" },
       ],
       selected : {}
       
@@ -118,7 +118,7 @@ export default {
       this.majorData = res.users
     },
     reset () {
-      this.defaultFaculty = { id: 0, title: "Collage of Computing" },
+      this.defaultFaculty = { id: 0, title: "CoC" },
       this.major = "-",
       this.year = "2565"
     },

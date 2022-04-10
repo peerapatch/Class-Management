@@ -1,15 +1,14 @@
 <template>
   <v-container>
+    
     <v-container class="d-flex flex-row">
-     
       <v-spacer />
       <v-btn @click="createRoom" width="150" color="green" class="white--text"
         >Create Room</v-btn
       >
     </v-container>
 
-      <v-data-table
-      
+    <v-data-table
       :headers="headers"
       :items="classrooms"
       :items-per-page="5"
@@ -24,13 +23,12 @@
       </template>
     </v-data-table>
 
-
     <v-dialog v-model="isCreateRoomDialogOpen" persistent>
       <v-card>
         <v-card-title>Create New Classroom</v-card-title>
         <v-container>
           <v-text-field
-            v-model="create_form.classRoomId"
+            v-model="create_form.classroom_no"
             label="Classroom Number"
           />
           <!-- <v-text-field v-model="create_form.type" /> -->
@@ -55,7 +53,7 @@
                 width="150"
                 color="green"
                 class="white--text"
-                @click="addAccessory(accessoryName , false)"
+                @click="addAccessory(accessoryName, false)"
                 >Add Accessory</v-btn
               ></v-col
             >
@@ -72,7 +70,7 @@
               v-for="item in create_form.accessories"
               :key="item"
               close
-              @click:close="removeAccessory(item ,false)"
+              @click:close="removeAccessory(item, false)"
               >{{ item }}</v-chip
             >
           </v-container>
@@ -94,45 +92,54 @@
     </v-dialog>
     <v-dialog v-model="isViewDialogOpen" persistent>
       <v-card>
-        <v-card-title>{{ selected.classroomID }}</v-card-title>
+        <v-card-title>{{ selected.classroom_no }}</v-card-title>
 
         <v-container>
-          
-         <v-container><b>Classroom Type</b> : {{ selected.type }}</v-container>
+          <v-container><b>Classroom Type</b> : {{ selected.type }}</v-container>
           <v-container><b>Capacity</b> : {{ selected.capacity }}</v-container>
           <v-container>
             <b>Room Accessories</b>
           </v-container>
           <v-container class="d-flex flex-wrap">
-            
-            <v-chip class="mx-2 my-2" v-for="item in selected.accessory" :key="item"><b>{{ item }}</b></v-chip>
+            <v-chip
+              class="mx-2 my-2"
+              v-for="item in selected.accessories"
+              :key="item"
+              ><b>{{ item }}</b></v-chip
+            >
           </v-container>
-          
         </v-container>
         <v-card-actions>
-          <v-spacer/>
+          <v-spacer />
           <v-btn width="150" @click="close_viewClassRoom">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog v-model="isDeleteDialogOpen" persistent>
       <v-card>
-      <v-card-title>Delete Classroom ?</v-card-title>
-      <v-card-actions>
-        <v-spacer/>
-        <v-btn @click="confirm_deleteClassRoom" color="red" class="white--text">Delete</v-btn>
-        <v-btn @click="cancel_deleteClassRoom">Cancel</v-btn>
-        <v-spacer/>
-      </v-card-actions>
+        <v-card-title>Delete Classroom ?</v-card-title>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            @click="confirm_deleteClassRoom"
+            color="red"
+            class="white--text"
+            >Delete</v-btn
+          >
+          <v-btn @click="cancel_deleteClassRoom">Cancel</v-btn>
+          <v-spacer />
+        </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <!-- EDIT -->
     <v-dialog v-model="isEditDialogOpen" persistent>
-       <v-card>
+      <v-card>
         <v-card-title>Edit Classroom</v-card-title>
         <v-container>
           {{ selected }}
           <v-text-field
-            v-model="selected.classroomID"
+            v-model="selected.classroom_no"
             label="Classroom Number"
           />
           <!-- <v-text-field v-model="create_form.type" /> -->
@@ -157,7 +164,7 @@
                 width="150"
                 color="green"
                 class="white--text"
-                @click="addAccessory(accessoryName , true)"
+                @click="addAccessory(accessoryName, true)"
                 >Add Accessory</v-btn
               ></v-col
             >
@@ -165,20 +172,20 @@
 
           <h4>Accessories List</h4>
           <v-container
-            v-if="selected.accessory != null "
+            v-if="selected.accessories != null"
             class="d-flex flex-wrap"
           >
             <v-chip
               outlined
               class="mx-2 my-2"
-              v-for="item in selected.accessory"
+              v-for="item in selected.accessories"
               :key="item"
               close
-              @click:close="removeAccessory(item , true)"
+              @click:close="removeAccessory(item, true)"
               >{{ item }}</v-chip
             >
           </v-container>
-          <v-container v-if="selected.accessory == {}"> - </v-container>
+          <v-container v-if="selected.accessories == {}"> - </v-container>
         </v-container>
 
         <v-card-actions>
@@ -198,29 +205,34 @@
 </template>
 
 <script>
-import { getAllClassRoom ,createNewRoom , deleteClassRoom , editClassRoom} from "../modules/fetch";
+import {
+  getAllClassRoom,
+  createNewRoom,
+  deleteClassRoom,
+  editClassRoom,
+} from "../modules/fetch";
 export default {
   name: "ClassroomManagement",
   created() {
-    this.fetchClassRoom()
+    this.fetchClassRoom();
   },
   data() {
     return {
-      isViewDialogOpen : false,
-      isDeleteDialogOpen : false,
-      isEditDialogOpen : false,
-      selected : {},
-      classrooms : [],
+      isViewDialogOpen: false,
+      isDeleteDialogOpen: false,
+      isEditDialogOpen: false,
+      selected: {},
+      classrooms: [],
       headers: [
         {
           text: "Name",
           align: "start",
-          
-          value: "classroomID",
+
+          value: "classroom_no",
         },
-        
+
         { text: "Type", value: "type" },
-        { text: "Capacity", value: "capacity" ,sortable: true, },
+        { text: "Capacity", value: "capacity", sortable: true },
         { text: "Action", value: "actions" },
       ],
       isCreateRoomDialogOpen: false,
@@ -231,7 +243,7 @@ export default {
       selected_classroom_type: { id: 0, type: "Lecture Room" },
       accessoryName: "",
       create_form: {
-        classRoomId: "",
+        classroom_no: "",
         type: { id: 0, type: "Lecture Room" },
         capacity: 0,
         accessories: [],
@@ -240,12 +252,13 @@ export default {
   },
   methods: {
     async fetchClassRoom() {
-      let res = await getAllClassRoom()
-      this.classrooms = res.users
+      let res = await getAllClassRoom();
+
+      this.classrooms = res.data;
     },
     clearForm() {
       this.create_form = {
-        classRoomId: "",
+        classroom_no: "",
         type: { id: 0, type: "Lecture Room" },
         capacity: 0,
         accessories: [],
@@ -256,100 +269,88 @@ export default {
     },
     async confirm_createRoom() {
       await createNewRoom({
-        classRoomId: this.create_form.classRoomId,
+        classroom_no: this.create_form.classroom_no,
         capacity: this.create_form.capacity,
-        type: this.create_form.type.type,
+        type: this.create_form.type.id,
         accessories: this.create_form.accessories,
       });
 
       this.clearForm();
       this.isCreateRoomDialogOpen = false;
-      this.fetchClassRoom()
+      this.fetchClassRoom();
     },
     cancel_createRoom() {
       this.isCreateRoomDialogOpen = false;
-      this.clearForm()
+      this.clearForm();
     },
     addAccessory(name, isEdit) {
-
-
-      if(isEdit) {
-         if (name != "") {
-             this.selected.accessory.push(name);
-             this.accessoryName = "";
-      }
-
+      if (isEdit) {
+        if (name != "") {
+          this.selected.accessories.push(name);
+          this.accessoryName = "";
+        }
       } else {
-      if (name != "") {
-        this.create_form.accessories.push(name);
-        this.accessoryName = "";
+        if (name != "") {
+          this.create_form.accessories.push(name);
+          this.accessoryName = "";
+        }
       }
-
-      }
-     
     },
-    removeAccessory(accessoryName , isEdit) {
-
-      if(isEdit) {
-        let idx = this.selected.accessory.indexOf(accessoryName);
-        this.selected.accessory.splice(idx, 1);
+    removeAccessory(accessoryName, isEdit) {
+      if (isEdit) {
+        let idx = this.selected.accessories.indexOf(accessoryName);
+        this.selected.accessories.splice(idx, 1);
       } else {
         let idx = this.create_form.accessories.indexOf(accessoryName);
         this.create_form.accessories.splice(idx, 1);
       }
-
     },
 
-  viewClassRoom(item) {
-    this.selected = item
-  this.isViewDialogOpen = true
-    
+    viewClassRoom(item) {
+      this.selected = item;
+      this.isViewDialogOpen = true;
+    },
 
-  },
+    close_viewClassRoom() {
+      this.selected = {};
+      this.isViewDialogOpen = false;
+    },
 
-  close_viewClassRoom() {
-    this.selected = {}
-    this.isViewDialogOpen = false
-  },
-  
-  deleteClassRoom(item) {
-    
-    this.isDeleteDialogOpen = true
-    this.selected = item
-  },
-  async confirm_deleteClassRoom() {
-    await deleteClassRoom(this.selected._id)
-    this.selected = {}
-    this.isDeleteDialogOpen = false
-    this.fetchClassRoom()
-  },
-  cancel_deleteClassRoom() {
-     this.isDeleteDialogOpen = false
-     this.selected = {}
-  },
-  editClassRoom(item) {
-
-    this.isEditDialogOpen = true
-    this.selected = item;
-
-
-  },
-  async confirm_editClassRoom() {
-    await editClassRoom(this.selected._id, this.selected)
-    this.isEditDialogOpen = false
-    this.selected = {};
-    this.fetchClassRoom()
-
-
-  },
-  cancel_editClassRoom() {
-
-    this.isEditDialogOpen = false
-    this.selected = {};
-
-
-  }
-
+    deleteClassRoom(item) {
+      this.isDeleteDialogOpen = true;
+      this.selected = item;
+    },
+    async confirm_deleteClassRoom() {
+      await deleteClassRoom(this.selected._id);
+      this.selected = {};
+      this.isDeleteDialogOpen = false;
+      this.fetchClassRoom();
+    },
+    cancel_deleteClassRoom() {
+      this.isDeleteDialogOpen = false;
+      this.selected = {};
+    },
+    editClassRoom(item) {
+      console.log(item);
+      this.isEditDialogOpen = true;
+      this.selected = {
+        classroom_no: item.classroom_no,
+        capacity: item.capacity,
+        type: { id: item.type , type : item.type === 0 ? "Lecture Room":"Lab Room"},
+        _id: item._id,
+        accessories: item.accessories,
+      };
+    },
+    async confirm_editClassRoom() {
+      await editClassRoom(this.selected._id, this.selected);
+      this.isEditDialogOpen = false;
+      this.selected = {};
+      this.fetchClassRoom();
+    },
+    cancel_editClassRoom() {
+      this.isEditDialogOpen = false;
+      this.selected = {};
+    },
   },
 };
 </script>

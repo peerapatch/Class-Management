@@ -5216,6 +5216,11 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
+later@>=1.1.2:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/later/-/later-1.2.0.tgz#f2cf6c4dd7956dd2f520adf0329836e9876bad0f"
+  integrity sha1-8s9sTdeVbdL1IK3wMpg26YdrrQ8=
+
 launch-editor-middleware@^2.2.1:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/launch-editor-middleware/-/launch-editor-middleware-2.3.0.tgz#edd0ed45a46f5f1cf27540f93346b5de9e8c3be0"
@@ -7194,6 +7199,13 @@ sax@~1.2.4:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
+schedulejs@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/schedulejs/-/schedulejs-0.6.3.tgz#c1eb5baf8e060ca8edea8c80785db0cce47ee5cf"
+  integrity sha1-wetbr44GDKjt6oyAeF2wzOR+5c8=
+  dependencies:
+    later ">=1.1.2"
+
 schema-utils@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-1.0.0.tgz#0b79a93204d7b600d4b2850d1f66c2a34951c770"
@@ -8308,6 +8320,11 @@ vue-cli-plugin-vuetify@~2.4.5:
     null-loader "^4.0.1"
     semver "^7.1.2"
     shelljs "^0.8.3"
+
+vue-daily-scheduler@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/vue-daily-scheduler/-/vue-daily-scheduler-1.0.9.tgz#e8ade8a5aa1f383dea9ad964c4f4ab5c2d8c20aa"
+  integrity sha512-0SFo2EQaP9oKpwzLHSKhpUNL5lI8CwLtwziKGry1mB6/LMIpjRuGZ8bSmTsVmgMqkQYdCGmQqDUKNXu+R/uvxg==
 
 vue-eslint-parser@^7.0.0:
   version "7.11.0"
