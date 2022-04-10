@@ -64,6 +64,7 @@ const createNewSubject = async (payload) => {
     {
       
       "major": payload.major.major,
+      "capacity" : payload.capacity,
       "faculty" : payload.major.faculty,
       "subject_code": payload.subject_code,
       "subject_name": payload.subject_name,
