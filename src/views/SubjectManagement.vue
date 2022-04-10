@@ -4,20 +4,19 @@
       <v-spacer />
       <AddSubjectForm @createSubject="createSubject($event)" />
     </v-container>
-{{ subjects }}
+<!-- {{ subjects }} -->
     <v-data-table
       :headers="headers"
       :items="subjects"
       :items-per-page="5"
       class="elevation-1"
     >
-      <!-- <template v-slot:[`item.actions`]="{ item }">
-        <v-icon @click="viewClassRoom(item)"> mdi-eye</v-icon>
-        <v-icon @click="editClassRoom(item)"> mdi-pencil</v-icon>
-        <v-icon @click="deleteClassRoom(item)" class="red--text">
+      <template v-slot:[`item.actions`]="{ item }">
+        <!-- <v-icon @click="viewClassRoom(item)"> mdi-eye</v-icon> -->
+        <v-icon @click="deleteSubject(item)" class="red--text">
           mdi-delete</v-icon
         >
-      </template> -->
+      </template>
     </v-data-table>
   </v-container>
 </template>
@@ -31,6 +30,7 @@ export default {
   computed: {
     ...mapState({
       subjects: (state) => state.subjects,
+      
     }),
   },
   methods: {
