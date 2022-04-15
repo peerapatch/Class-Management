@@ -5,7 +5,7 @@ const fetch = axios.create({
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
-  },
+  }
 
 })
 
@@ -57,23 +57,22 @@ const deleteSubject = async (id) => {
 }
 
 const createNewSubject = async (payload) => {
-
-  console.log('create - >',payload)
+  console.log('create - >', payload)
   try {
-    const result = await fetch.post('/subject',  
-    {
-      
-      "major": payload.major.major,
-      "capacity" : payload.capacity,
-      "faculty" : payload.major.faculty,
-      "subject_code": payload.subject_code,
-      "subject_name": payload.subject_name,
-      "lecturer": payload.lecturer.name,
-      "section": payload.section,
-      "credit": payload.credit,
-      "period": payload.period,
-      "remark" : payload.remark,
-  })
+    const result = await fetch.post('/subject',
+      {
+
+        major: payload.major.major,
+        capacity: payload.capacity,
+        faculty: payload.major.faculty,
+        subject_code: payload.subject_code,
+        subject_name: payload.subject_name,
+        lecturer: payload.lecturer.name,
+        section: payload.section,
+        credit: payload.credit,
+        period: payload.period,
+        remark: payload.remark
+      })
     console.log(result)
     return true
   } catch (err) {
@@ -201,8 +200,6 @@ const editMajor = async (id, payload) => {
 const createNewRoom = async (payload) => {
   console.log('create payload -> ', payload)
   try {
-
-
     const res = await fetch.post('/classroom', {
       classroom_no: payload.classroom_no,
       capacity: payload.capacity,
@@ -229,7 +226,7 @@ const getAllClassRoom = async () => {
 }
 
 const editClassRoom = async (id, payload) => {
-  console.log('edit payload',payload)
+  console.log('edit payload', payload)
 
   try {
     const result = await fetch.put(`/classroom/${id}`, {
