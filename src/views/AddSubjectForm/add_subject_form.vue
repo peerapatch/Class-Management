@@ -276,9 +276,9 @@ export default {
         subject_code: "",
         subject_name: "",
         lecturer: {},
-        credit: 0,
-        capacity : 0,
-        section: 0,
+        credit: "",
+        capacity : "",
+        section: "",
         remark: "",
         period: [
           {

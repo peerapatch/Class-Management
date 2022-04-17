@@ -22,9 +22,10 @@
       </v-data-table>
     </v-container>
     <v-dialog v-model="isCreateDialogOpen" persistent>
+
       <v-card>
-        <v-card-subtitle>Create Major</v-card-subtitle>
-        <v-container>
+        <v-card-title>Create Major</v-card-title>
+      <v-container class="mx-5 my-3">
           <v-select
             v-model="defaultFaculty"
             :items="faculty"
@@ -38,7 +39,7 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn width="150" color="green" class="white--text" @click="confirm_createRoom" >Comfirm</v-btn>
+          <v-btn width="150" color="green" class="white--text" @click="createNewMajor" >Confirm</v-btn>
           <v-btn @click="dialogCancel">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -50,8 +51,9 @@
       <v-card>
         <v-card-title>Delete Major?</v-card-title>
         <v-card-actions>
-          <v-btn @click="confirmDelete">Yes</v-btn>
-          <v-btn @click="cancelDelete">No</v-btn>
+          <v-spacer/>
+          <v-btn color="red" class="white--text" @click="confirmDelete">Delete</v-btn>
+          <v-btn @click="cancelDelete">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -73,7 +75,7 @@
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn width="150" color="green" class="white--text" @click="confirm_createRoom" >Comfirm</v-btn>
+          <v-btn width="150" color="green" class="white--text" @click="editConfirm" >Save Changes</v-btn>
           <v-btn @click="editCancel">Cancel</v-btn>
         </v-card-actions>
       </v-card>

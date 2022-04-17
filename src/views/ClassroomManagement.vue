@@ -127,7 +127,7 @@
             >Delete</v-btn
           >
           <v-btn @click="cancel_deleteClassRoom">Cancel</v-btn>
-          <v-spacer />
+          
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -195,7 +195,7 @@
             color="green"
             class="white--text"
             @click="confirm_editClassRoom"
-            >Edit</v-btn
+            >Save Changes</v-btn
           >
           <v-btn width="150" @click="cancel_editClassRoom">Cancel</v-btn>
         </v-card-actions>

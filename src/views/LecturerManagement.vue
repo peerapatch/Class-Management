@@ -79,7 +79,7 @@
         <v-card-title>Delete this Lecturer</v-card-title>
         <v-card-actions>
           <v-spacer />
-          <v-btn width="150" color="green" class="white--text" @click="confirmDelete"
+          <v-btn width="150" color="red" class="white--text" @click="confirmDelete"
             >Delete</v-btn
           >
           <v-btn
