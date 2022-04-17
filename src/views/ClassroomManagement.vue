@@ -10,7 +10,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="classrooms"
+      :items="mapedData"
       :items-per-page="5"
       class="elevation-1"
     >
@@ -95,7 +95,7 @@
         <v-card-title>{{ selected.classroom_no }}</v-card-title>
 
         <v-container>
-          <v-container><b>Classroom Type</b> : {{ selected.type }}</v-container>
+          <v-container><b>Classroom Type</b> : {{ selected.type === 0 ? "Lecturer Room" : "Lab Room" }}</v-container>
           <v-container><b>Capacity</b> : {{ selected.capacity }}</v-container>
           <v-container>
             <b>Room Accessories :</b>
@@ -216,6 +216,23 @@ export default {
   created() {
     this.fetchClassRoom();
   },
+
+  computed : {
+
+
+    mapedData () {
+      let result = this.classrooms.map((item) => ({
+          _id : item._id,
+      classroom_no : item.classroom_no,
+      capacity : item.capacity,
+      accessories : item.accessories,
+      type : item.type,
+      type_text : item.type === 0 ? "Lecture Room" : "Lab Room"
+
+      }))
+      return result
+    }
+  },
   data() {
     return {
       isViewDialogOpen: false,
@@ -231,7 +248,7 @@ export default {
           value: "classroom_no",
         },
 
-        { text: "Type", value: "type" },
+        { text: "Type", value: "type_text" },
         { text: "Capacity", value: "capacity", sortable: true },
         { text: "Action", value: "actions" },
       ],

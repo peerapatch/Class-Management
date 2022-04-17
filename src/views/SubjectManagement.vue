@@ -50,15 +50,15 @@
           class="px-4 py-4 mx-4 my-4 grey lighten-2 d-flex flex-column"
         >
           <!-- {{ selected_item }} -->
-          <v-container><b>Credit : </b> {{ selected_item.credit }}</v-container>
-          <v-container
-            ><b>Section : </b> {{ selected_item.section }}</v-container
-          >
+          <v-container><b>Lecturer : </b> {{ selected_item.lecturer }}</v-container>
+          
           <v-container
             ><b>Faculty : </b> {{ selected_item.faculty }}</v-container
           >
           <v-container><b>Major : </b> {{ selected_item.major }}</v-container>
-          <v-container><b>Credit : </b> {{ selected_item.credit }}</v-container>
+          <v-container><b>Section : </b> {{ selected_item.section }}</v-container>
+          <v-container><b>Credits : </b> {{ selected_item.credit }}</v-container>
+          <v-container><b>Capacity : </b> {{ selected_item.capacity }}</v-container>
           <v-container><b>Remark : </b> {{ selected_item.remark }}</v-container>
 
           <v-container

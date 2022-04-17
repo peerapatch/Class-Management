@@ -57,22 +57,22 @@ const deleteSubject = async (id) => {
 }
 
 const createNewSubject = async (payload) => {
-  console.log('create - >', payload)
+  const post_data = {
+    major: payload.major.major,
+    capacity: payload.capacity,
+    faculty: payload.major.faculty,
+    subject_code: payload.subject_code,
+    subject_name: payload.subject_name,
+    lecturer_name: payload.lecturer.name,
+    section: payload.section,
+    credit: payload.credit,
+    period: payload.period,
+    remark: payload.remark
+  }
+  console.log('create - >', post_data)
   try {
     const result = await fetch.post('/subject',
-      {
-
-        major: payload.major.major,
-        capacity: payload.capacity,
-        faculty: payload.major.faculty,
-        subject_code: payload.subject_code,
-        subject_name: payload.subject_name,
-        lecturer: payload.lecturer.name,
-        section: payload.section,
-        credit: payload.credit,
-        period: payload.period,
-        remark: payload.remark
-      })
+      post_data)
     console.log(result)
     return true
   } catch (err) {
