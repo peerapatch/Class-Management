@@ -48,7 +48,7 @@
             </v-col>
             <v-col />
           </v-row>
-          {{ form.type }}
+          <!-- {{ form.type }} -->
           <v-row>
             <v-col>
               <v-select
@@ -99,7 +99,7 @@
         <!-- {{ temp_lecturer.type }} -->
         <v-container class="px-10">
           <v-text-field v-model="temp_lecturer.name" />
-          {{ temp_lecturer }}
+          
 
           <v-select
             label="Faculty"

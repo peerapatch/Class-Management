@@ -80,6 +80,7 @@
           <v-spacer />
 
           <v-btn plain width="125" @click="closeView()">Cancel</v-btn>
+          <!-- <v-btn width="150" color="red" class="white--text" @click="closeView()" >Cancel</v-btn> -->
         </v-card-actions>
       </v-card>
     </v-dialog>

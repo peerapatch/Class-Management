@@ -38,7 +38,7 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="createNewMajor">Confirm</v-btn>
+          <v-btn width="150" color="green" class="white--text" @click="confirm_createRoom" >Comfirm</v-btn>
           <v-btn @click="dialogCancel">Cancel</v-btn>
         </v-card-actions>
       </v-card>
@@ -73,7 +73,7 @@
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="editConfirm">Confirm</v-btn>
+          <v-btn width="150" color="green" class="white--text" @click="confirm_createRoom" >Comfirm</v-btn>
           <v-btn @click="editCancel">Cancel</v-btn>
         </v-card-actions>
       </v-card>

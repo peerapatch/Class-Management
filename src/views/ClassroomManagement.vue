@@ -98,7 +98,7 @@
           <v-container><b>Classroom Type</b> : {{ selected.type }}</v-container>
           <v-container><b>Capacity</b> : {{ selected.capacity }}</v-container>
           <v-container>
-            <b>Room Accessories</b>
+            <b>Room Accessories :</b>
           </v-container>
           <v-container class="d-flex flex-wrap">
             <v-chip
@@ -137,7 +137,7 @@
       <v-card>
         <v-card-title>Edit Classroom</v-card-title>
         <v-container>
-          {{ selected }}
+          <!-- {{ selected }} -->
           <v-text-field
             v-model="selected.classroom_no"
             label="Classroom Number"
@@ -170,7 +170,7 @@
             >
           </v-row>
 
-          <h4>Accessories List</h4>
+          <h4>Accessories List :</h4>
           <v-container
             v-if="selected.accessories != null"
             class="d-flex flex-wrap"
