@@ -3,18 +3,19 @@
     <v-btn @click="triggerAction" class="green white--text" elevation="0" width="200">Create New Subject</v-btn>
     <v-dialog v-model="isDialogOpen" max-width="1200" >
 
-
+      
       <v-card class="px-10">
         <v-card-title>Create New Subject</v-card-title>
+        {{ create_form  }}
         <v-container class="mx-5 my-3">
           <v-row>
             <v-col>
               <v-select
                 label="Major"
                 v-model="create_form.major"
-                :items="majors"
-                item-text="major"
-                @change="getLecturersByFaculty(create_form.major.faculty)"
+                :items="selectable_major"
+                item-text="title"
+                @change="getLecturersByFaculty(create_form.major.faculty,create_form.major)"
                 return-object
               />
             </v-col>
@@ -190,7 +191,22 @@ export default {
     ...mapState({
       majors: (state) => state.majors,
       rooms: (state) => state.rooms,
+
+      selectable_major() {
+        
+        return this.$store.state.majors.map((elem) => ({
+
+          title : `${elem.major} | ${elem.year}`,
+          major : elem.major,
+          year : elem.year,
+          faculty : elem.faculty,
+
+        }))
+      }
     }),
+
+
+
   },
   methods: {
     clear_form() {
@@ -203,6 +219,8 @@ export default {
         credit: 0,
         section: 1,
         remark: "",
+
+        year : "",
         period: [
           {
             order_no: 0,
@@ -240,7 +258,9 @@ export default {
       this.time_duration[index] = this.convert_to_duration(index);
     },
 
-    async getLecturersByFaculty(faculty) {
+    async getLecturersByFaculty(faculty , major) {
+
+      this.create_form.year = major.year
       let result = await getLecturerByFaculty(faculty);
       this.selectable_lecturers = result.data;
     },

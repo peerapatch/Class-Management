@@ -67,7 +67,8 @@ const createNewSubject = async (payload) => {
     section: payload.section,
     credit: payload.credit,
     period: payload.period,
-    remark: payload.remark
+    remark: payload.remark,
+    year: payload.year
   }
   console.log('create - >', post_data)
   try {
