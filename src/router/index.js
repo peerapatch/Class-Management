@@ -5,7 +5,7 @@ import ClassroomManagement from '../views/ClassroomManagement.vue'
 import LecturerManagement from '../views/LecturerManagement.vue'
 import MajorManagement from '../views/MajorManagement.vue'
 import SubjectManagement from '../views/SubjectManagement.vue'
-import Timetable from '../views/Timetable.vue'
+// import Timetable from '../views/Timetable.vue'
 
 Vue.use(VueRouter)
 
@@ -39,8 +39,8 @@ const routes = [
   {
     path: '/time_table',
     name: 'Timetable',
-    component: Timetable
-  },
+    component: Home
+  }
 ]
 
 const router = new VueRouter({

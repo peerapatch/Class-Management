@@ -1,7 +1,7 @@
 <template>
   <v-toolbar elevation="0" dark >
       <v-toolbar-items>
-      <v-btn plain @click="goTo('/time_table')">Time Table</v-btn>
+      <v-btn plain @click="goTo('/')">Time Table</v-btn>
     </v-toolbar-items>
     <v-spacer />
     <v-toolbar-items>

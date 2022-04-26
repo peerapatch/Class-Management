@@ -144,6 +144,7 @@ export default {
           value: "subject_code",
         },
         { text: "Name", value: "subject_name" },
+        { text: "Lecturer", value: "lecturer" },
         { text: "Major", value: "major", sortable: true },
         { text: "Faculty", value: "faculty", sortable: true },
         { text: "Section", value: "section" },

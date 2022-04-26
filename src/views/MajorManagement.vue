@@ -122,6 +122,7 @@ export default {
         { id: 0, title: "CoC" },
         { id: 1, title: "FIS" },
         { id: 2, title: "FHT" },
+        { id: 3, title: "TE" },
       ],
       selected: {},
     };

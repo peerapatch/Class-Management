@@ -28,6 +28,12 @@ export default new Vuex.Store({
       this.state.subjects = result
     }
   },
+
+  getters: {
+    getSubjectsByLecturer: (state) => (lecturer_name) => {
+      return state.subjects.filter((subject) => subject.lecturer === lecturer_name)
+    }
+  },
   modules: {
 
   }

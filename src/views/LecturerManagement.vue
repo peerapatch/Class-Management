@@ -6,7 +6,7 @@
     <v-container class="d-flex">
       <v-spacer />
       <v-btn
-      width="200"
+        width="200"
         color="green"
         class="white--text"
         elevation="0"
@@ -23,8 +23,11 @@
       class="elevation-1"
     >
       <template v-slot:[`item.actions`]="{ item }">
+        <v-icon @click="viewLecturer(item)"> mdi-eye</v-icon>
         <v-icon @click="editLecturer(item)"> mdi-pencil</v-icon>
-        <v-icon @click="deleteLecturer(item)" class="red--text"> mdi-delete</v-icon>
+        <v-icon @click="deleteLecturer(item)" class="red--text">
+          mdi-delete</v-icon
+        >
       </template>
     </v-data-table>
 
@@ -39,12 +42,20 @@
         <v-card-title>Add New Lecturer</v-card-title>
         <v-container>
           <v-row>
-            <v-col><v-text-field label="Name" v-model="form.first_name" /></v-col>
-            <v-col><v-text-field label="Last Name" v-model="form.last_name" /></v-col>
+            <v-col
+              ><v-text-field label="Name" v-model="form.first_name"
+            /></v-col>
+            <v-col
+              ><v-text-field label="Last Name" v-model="form.last_name"
+            /></v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-select label="Faculty" :items="faculty" v-model="form.faculty" />
+              <v-select
+                label="Faculty"
+                :items="faculty"
+                v-model="form.faculty"
+              />
             </v-col>
             <v-col />
           </v-row>
@@ -66,7 +77,11 @@
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn width="150" color="green" class="white--text" @click="addNewOne"
+          <v-btn
+            width="150"
+            color="green"
+            class="white--text"
+            @click="addNewOne"
             >Confirm</v-btn
           >
           <v-btn width="150" @click="isDialogOpen = false">Cancel</v-btn>
@@ -79,7 +94,11 @@
         <v-card-title>Delete this Lecturer</v-card-title>
         <v-card-actions>
           <v-spacer />
-          <v-btn width="150" color="red" class="white--text" @click="confirmDelete"
+          <v-btn
+            width="150"
+            color="red"
+            class="white--text"
+            @click="confirmDelete"
             >Delete</v-btn
           >
           <v-btn
@@ -99,7 +118,6 @@
         <!-- {{ temp_lecturer.type }} -->
         <v-container class="px-10">
           <v-text-field v-model="temp_lecturer.name" />
-          
 
           <v-select
             label="Faculty"
@@ -117,13 +135,34 @@
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn width="150" color="green" class="white--text" @click="confirmEdit"
+          <v-btn
+            width="150"
+            color="green"
+            class="white--text"
+            @click="confirmEdit"
             >Save Changes</v-btn
           >
-          <v-btn width="150" color="grey" class="white--text" @click="closeEditDialog"
+          <v-btn
+            width="150"
+            color="grey"
+            class="white--text"
+            @click="closeEditDialog"
             >Cancel</v-btn
           >
         </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="isViewedDialogOpen">
+      <v-card class="pa-10">
+      
+        <v-container fluid>
+
+
+        <div class="py-8"><h1>{{ temp_lecturer.name }} - ({{ temp_lecturer.faculty }})</h1></div>
+      
+        </v-container>
+        <class-table-component :events="result" />
       </v-card>
     </v-dialog>
   </v-container>
@@ -136,17 +175,22 @@ import {
   deleteLecturer,
   editLecturer,
 } from "../modules/fetch";
+import ClassTableComponent from "../components/ClassTableComponent.vue";
 export default {
   created() {
     this.getLecturers();
   },
+
+  components: { ClassTableComponent },
   name: "LecturerManagement",
   data() {
     return {
+      viewLectureSubjects: [],
       temp_id: "",
       temp_lecturer: { id: "", name: "", faculty: "", type: {} },
       temp_type: {},
       edit_form: { id: "", name: "", faculty: "", type: "" },
+      isViewedDialogOpen: false,
       isDeleteDialogOpen: false,
       isEditDialogOpen: false,
       isLoading: true,
@@ -173,7 +217,7 @@ export default {
           name: "Specialist",
         },
       ],
-      faculty: ["CoC", "FIS", "FHT"],
+      faculty: ["CoC", "FIS", "FHT", "TE"],
       headers: [
         {
           text: "Name",
@@ -232,14 +276,24 @@ export default {
         this.isDeleteDialogOpen = false;
       }
     },
-
+    async viewLecturer(item) {
+      console.log(item);
+      this.viewLectureSubjects = this.$store.getters.getSubjectsByLecturer(
+        item.name
+      );
+      this.isViewedDialogOpen = true;
+      this.temp_lecturer = item;
+    },
     async editLecturer(item) {
       console.log(item);
       this.isEditDialogOpen = true;
       this.temp_lecturer = item;
     },
     async confirmEdit() {
-      let result = await editLecturer(this.temp_lecturer.id, this.temp_lecturer);
+      let result = await editLecturer(
+        this.temp_lecturer.id,
+        this.temp_lecturer
+      );
       if (result === true) {
         this.getLecturers();
         this.isEditDialogOpen = false;
@@ -249,8 +303,41 @@ export default {
       this.getLecturers();
       this.isEditDialogOpen = false;
     },
+
+    getDayInt(val) {
+      if (val === "Sun") return "06";
+      if (val === "Mon") return "07";
+      if (val === "Tue") return "08";
+      if (val === "Wed") return "09";
+      if (val === "Thu") return "10";
+      if (val === "Fri") return "11";
+      if (val === "Sat") return "12";
+    },
   },
   computed: {
+    result() {
+      let new_array_result = [];
+      this.viewLectureSubjects.forEach((element_lv1) => {
+        element_lv1.period.forEach((element_lv2) => {
+          new_array_result.push({
+            code: element_lv1.subject_code,
+            name: element_lv1.subject_code + " " +element_lv1.subject_name,
+            yrs: 65,
+            room: element_lv2.room,
+            faculty: element_lv1.faculty,
+            start: `2019-01-${this.getDayInt(element_lv2.weekday)} ${
+              element_lv2.start
+            }`,
+            end: `2019-01-${this.getDayInt(element_lv2.weekday)} ${
+              element_lv2.finish
+            }`,
+          });
+        });
+      });
+
+      console.log(new_array_result);
+      return new_array_result;
+    },
     lecturers() {
       console.log("computed ", this.result_lecturers);
       let result = this.result_lecturers.map((item) => ({

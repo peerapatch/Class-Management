@@ -1,12 +1,16 @@
 <template>
   <div>
-    <v-btn @click="triggerAction" class="green white--text" elevation="0" width="200">Create New Subject</v-btn>
-    <v-dialog v-model="isDialogOpen" max-width="1200" >
-
-      
+    <v-btn
+      @click="triggerAction"
+      class="green white--text"
+      elevation="0"
+      width="200"
+      >Create New Subject</v-btn
+    >
+    <v-dialog v-model="isDialogOpen" max-width="1200">
       <v-card class="px-10">
         <v-card-title>Create New Subject</v-card-title>
-        {{ create_form  }}
+        {{ rooms }}
         <v-container class="mx-5 my-3">
           <v-row>
             <v-col>
@@ -15,7 +19,12 @@
                 v-model="create_form.major"
                 :items="selectable_major"
                 item-text="title"
-                @change="getLecturersByFaculty(create_form.major.faculty,create_form.major)"
+                @change="
+                  getLecturersByFaculty(
+                    create_form.major.faculty,
+                    create_form.major
+                  )
+                "
                 return-object
               />
             </v-col>
@@ -47,6 +56,7 @@
           <v-text-field
             v-model="create_form.capacity"
             label="Capacity"
+            @change="findMatchedRoom(0)"
           />
           <v-container class="grey lighten-2">
             <v-row>
@@ -64,9 +74,13 @@
                 >First</v-col
               >
               <v-col class="d-flex justify-center" align-self="center"
-                >{{ time_duration[0][0] }} Hrs.
-                {{ time_duration[0][1] }} Min</v-col
-              >
+                ><v-select
+                  v-model="first_type"
+                  :items="room_type"
+                  item-text="title"
+                  @change="findMatchedRoom(1)"
+                  return-object
+              /></v-col>
               <v-col class="d-flex justify-center">
                 <v-select
                   v-model="create_form.period[0].weekday"
@@ -104,7 +118,7 @@
               <v-col align-self="center" class="d-flex justify-center">
                 <v-select
                   v-model="create_form.period[0].room"
-                  :items="rooms"
+                  :items="selectable_rooms_first"
                   item-text="classroom_no"
                   item-value="classroom_no"
                 ></v-select>
@@ -117,9 +131,13 @@
                 >Second</v-col
               >
               <v-col align-self="center" class="d-flex justify-center"
-                >{{ time_duration[1][0] }} Hrs.
-                {{ time_duration[1][1] }} Min</v-col
-              >
+                ><v-select
+                  v-model="second_type"
+                  :items="room_type"
+                  item-text="title"
+                  @change="findMatchedRoom(2)"
+                  return-object
+              /></v-col>
               <v-col class="d-flex justify-center"
                 ><v-select
                   v-model="create_form.period[1].weekday"
@@ -156,7 +174,7 @@
               <v-col align-self="center">
                 <v-select
                   v-model="create_form.period[1].room"
-                  :items="rooms"
+                  :items="selectable_rooms_second"
                   item-text="classroom_no"
                   item-value="classroom_no"
                 ></v-select>
@@ -170,8 +188,10 @@
         </v-container>
         <v-card-actions>
           <v-spacer />
-          <v-btn width="150" class="green white--text" @click="createNewSubject">Create</v-btn>
-          <v-btn width="150"  @click="closeDialog">Cancel</v-btn>
+          <v-btn width="150" class="green white--text" @click="createNewSubject"
+            >Create</v-btn
+          >
+          <v-btn width="150" @click="closeDialog">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -193,34 +213,54 @@ export default {
       rooms: (state) => state.rooms,
 
       selectable_major() {
-        
         return this.$store.state.majors.map((elem) => ({
-
-          title : `${elem.major} | ${elem.year}`,
-          major : elem.major,
-          year : elem.year,
-          faculty : elem.faculty,
-
-        }))
-      }
+          title: `${elem.major} | ${elem.year}`,
+          major: elem.major,
+          year: elem.year,
+          faculty: elem.faculty,
+        }));
+      },
     }),
-
-
-
   },
   methods: {
+    findMatchedRoom(order) {
+      console.log(order);
+
+      if (order === 1 || order === 0) {
+        let result = this.rooms.filter(
+          (room) =>
+            room.type === this.first_type.type &&
+            room.capacity <= this.create_form.capacity
+        );
+        this.selectable_rooms_first = result;
+        console.log(result);
+      }
+
+      if (order === 2 || order === 0) {
+        let result = this.rooms.filter(
+          (room) =>
+            room.type === this.second_type.type &&
+            room.capacity <= this.create_form.capacity
+        );
+
+        this.selectable_rooms_second = result;
+        console.log(result);
+      }
+
+      
+    },
     clear_form() {
       this.create_form = {
         major: {},
         subject_code: "",
         subject_name: "",
-        capacity : 0,
+        capacity: 0,
         lecturer: {},
         credit: 0,
         section: 1,
         remark: "",
 
-        year : "",
+        year: "",
         period: [
           {
             order_no: 0,
@@ -258,9 +298,8 @@ export default {
       this.time_duration[index] = this.convert_to_duration(index);
     },
 
-    async getLecturersByFaculty(faculty , major) {
-
-      this.create_form.year = major.year
+    async getLecturersByFaculty(faculty, major) {
+      this.create_form.year = major.year;
       let result = await getLecturerByFaculty(faculty);
       this.selectable_lecturers = result.data;
     },
@@ -274,7 +313,7 @@ export default {
       // console.log(this.create_form);
       await createNewSubject(this.create_form);
       this.clear_form();
-      this.$store.dispatch('getAllSubject')
+      this.$store.dispatch("getAllSubject");
     },
 
     closeDialog() {
@@ -284,9 +323,37 @@ export default {
   },
   data() {
     return {
+      selectable_rooms_first: [],
+      selectable_rooms_second: [],
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
       selectable_lecturers: [],
       major: {},
+
+      roomtype_1_enable_state: false,
+      roomtype_2_enable_state: false,
+      room_type: [
+        {
+          type: 0,
+
+          title: "Lecture",
+        },
+
+        {
+          type: 1,
+
+          title: "Lab",
+        },
+      ],
+      first_type: {
+        type: 0,
+
+        title: "Lecture",
+      },
+      second_type: {
+        type: 0,
+
+        title: "Lecture",
+      },
       time_duration: [
         [0, 0],
         [0, 0],
@@ -297,7 +364,7 @@ export default {
         subject_name: "",
         lecturer: {},
         credit: "",
-        capacity : "",
+        capacity: "",
         section: "",
         remark: "",
         period: [

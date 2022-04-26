@@ -1,7 +1,6 @@
 <template>
   <v-container fluid class="ma-10 test">
-    {{ major_filter }}
-    {{ default_faculty }}
+
     <v-row>
       <v-col cols="2"
         ><v-select :items="major_filter" item-text="title" return-object v-model="default_faculty" 
@@ -63,7 +62,7 @@ export default {
           if (element_lv1.faculty === this.default_faculty.faculty && element_lv1.year ===  this.default_faculty.year && element_lv1.major ===this.default_faculty.major ) {
             new_array_result.push({
               code: element_lv1.subject_code,
-              name: element_lv1.subject_name,
+              name: element_lv1.subject_code + " " +element_lv1.subject_name + " " + element_lv2.room +  " " + "Sec. "+element_lv1.section,
               yrs: 65,
               room: element_lv2.room,
               faculty: element_lv1.faculty,
