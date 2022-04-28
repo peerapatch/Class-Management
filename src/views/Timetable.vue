@@ -16,11 +16,13 @@
       </v-sheet>
       <v-sheet class="fill-height">
         <v-calendar
+        
         dark
           ref="calendar"
           v-model="focus_current_date"
           color="primary"
           :events="formatted_time"
+       
           type="day"
         ></v-calendar>
       </v-sheet>

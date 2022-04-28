@@ -29,13 +29,13 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            plain
-            width="125"
-            class="red white--text"
+            width="150"
+            color="red"
+            class="white--text"
             @click="delete_subject()"
             >Delete</v-btn
           >
-          <v-btn plain width="125" @click="closeDeleteDialog()">Cancel</v-btn>
+          <v-btn  width="125" color="grey" class="white--text" @click="closeDeleteDialog()">Cancel</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

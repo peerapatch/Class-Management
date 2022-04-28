@@ -2,6 +2,7 @@
   <v-container fluid>
   
     <v-calendar
+      event-overlap-mode="stack"
       ref="calendar"
       :value="today"
       :events="events"
@@ -27,8 +28,9 @@ export default {
   name: "ClassTableComponent",
   props: ["events"],
   data: () => ({
-    today: "2019-01-08",
 
+
+    today: "2019-01-08",
     isDialogOpen: false,
     temp: {},
   }),

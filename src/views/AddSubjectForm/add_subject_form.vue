@@ -10,11 +10,12 @@
     <v-dialog v-model="isDialogOpen" max-width="1200">
       <v-card class="px-10">
         <v-card-title>Create New Subject</v-card-title>
-        {{ rooms }}
+        <!-- {{ rooms }} -->
         <v-container class="mx-5 my-3">
           <v-row>
             <v-col>
               <v-select
+              outlined
                 label="Major"
                 v-model="create_form.major"
                 :items="selectable_major"
@@ -36,24 +37,25 @@
             </v-col>
           </v-row>
 
-          <v-select
-            label="Lecturer"
-            v-model="create_form.lecturer"
-            :items="selectable_lecturers"
-            item-text="name"
-            return-object
-          />
+ 
+          <v-autocomplete label="Lecturer" v-model="create_form.lecturer"  :items="lecturer" item-text="name" outlined
+         return-object/>
+
+          
           <v-text-field
             v-model="create_form.subject_code"
             label="Subject Code"
+            outlined
           />
           <v-text-field
             v-model="create_form.subject_name"
             label="Subject Name"
+            outlined
           />
-          <v-text-field v-model="create_form.section" label="Section" />
-          <v-text-field v-model="create_form.credit" label="Credit" />
+          <v-text-field v-model="create_form.section" label="Section" outlined/>
+          <v-text-field v-model="create_form.credit" label="Credit" outlined/>
           <v-text-field
+          outlined
             v-model="create_form.capacity"
             label="Capacity"
             @change="findMatchedRoom(0)"
@@ -83,6 +85,7 @@
               /></v-col>
               <v-col class="d-flex justify-center">
                 <v-select
+                
                   v-model="create_form.period[0].weekday"
                   :items="days"
                 />
@@ -184,6 +187,7 @@
           <v-text-field
             v-model="create_form.remark"
             label="Remark"
+            outlined
           ></v-text-field>
         </v-container>
         <v-card-actions>
@@ -208,9 +212,11 @@ export default {
     ClassTimePicker,
   },
   computed: {
+
     ...mapState({
       majors: (state) => state.majors,
       rooms: (state) => state.rooms,
+      lecturer : (state) => state.lecturers,
 
       selectable_major() {
         return this.$store.state.majors.map((elem) => ({
@@ -230,7 +236,7 @@ export default {
         let result = this.rooms.filter(
           (room) =>
             room.type === this.first_type.type &&
-            room.capacity <= this.create_form.capacity
+            room.capacity >= this.create_form.capacity
         );
         this.selectable_rooms_first = result;
         console.log(result);
@@ -240,7 +246,7 @@ export default {
         let result = this.rooms.filter(
           (room) =>
             room.type === this.second_type.type &&
-            room.capacity <= this.create_form.capacity
+            room.capacity >= this.create_form.capacity
         );
 
         this.selectable_rooms_second = result;
@@ -323,6 +329,7 @@ export default {
   },
   data() {
     return {
+  
       selectable_rooms_first: [],
       selectable_rooms_second: [],
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
@@ -388,5 +395,8 @@ export default {
       isDialogOpen: false,
     };
   },
+
+
+  
 };
 </script>
