@@ -63,7 +63,7 @@
           <v-container class="grey lighten-2">
             <v-row>
               <v-col class="d-flex justify-center"><b>Period</b></v-col>
-              <v-col class="d-flex justify-center"><b>Time</b></v-col>
+              <v-col class="d-flex justify-center"><b>Room Type</b></v-col>
               <v-col class="d-flex justify-center"><b>Day</b></v-col>
               <v-col class="d-flex justify-center"><b>Start Time</b></v-col>
               <v-col class="d-flex justify-center"><b>Finish Time</b></v-col>

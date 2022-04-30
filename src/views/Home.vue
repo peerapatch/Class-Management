@@ -115,11 +115,11 @@ export default {
                   " " +
                 
                   "Sec. " +
-                  element_lv1.section + " " + `(${element_lv1.lecturer})` +  element_lv2.room  ,
+                  element_lv1.section + " " + `(${element_lv1.lecturer})` + " " + element_lv2.room  ,
                 color: subject_color,
-                yrs: 65,
-                room: element_lv2.room,
-                faculty: element_lv1.faculty,
+                // yrs: 65,
+                // room: element_lv2.room,
+                // faculty: element_lv1.faculty,
                 start: `2019-01-${this.getDayInt(element_lv2.weekday)} ${
                   element_lv2.start
                 }`,
