@@ -155,12 +155,10 @@
 
     <v-dialog v-model="isViewedDialogOpen">
       <v-card class="pa-10">
-      
         <v-container fluid>
-
-
-        <div class="py-8"><h1>{{ temp_lecturer.name }} - ({{ temp_lecturer.faculty }})</h1></div>
-      
+          <div class="py-8">
+            <h1>{{ temp_lecturer.name }} </h1>
+          </div>
         </v-container>
         <class-table-component :events="result" />
       </v-card>
@@ -319,19 +317,26 @@ export default {
       let new_array_result = [];
       this.viewLectureSubjects.forEach((element_lv1) => {
         element_lv1.period.forEach((element_lv2) => {
-          new_array_result.push({
-            code: element_lv1.subject_code,
-            name: element_lv1.subject_code + " " +element_lv1.subject_name,
-            yrs: 65,
-            room: element_lv2.room,
-            faculty: element_lv1.faculty,
-            start: `2019-01-${this.getDayInt(element_lv2.weekday)} ${
-              element_lv2.start
-            }`,
-            end: `2019-01-${this.getDayInt(element_lv2.weekday)} ${
-              element_lv2.finish
-            }`,
-          });
+          if (element_lv2.start !== "0:00" && element_lv2.finish !== "0:00") {
+            new_array_result.push({
+              code: element_lv1.subject_code,
+              name:
+                element_lv1.subject_code +
+                " " +
+                element_lv1.subject_name +
+                " " +
+                element_lv2.room,
+              yrs: 65,
+              
+              faculty: element_lv1.faculty,
+              start: `2019-01-${this.getDayInt(element_lv2.weekday)} ${
+                element_lv2.start
+              }`,
+              end: `2019-01-${this.getDayInt(element_lv2.weekday)} ${
+                element_lv2.finish
+              }`,
+            });
+          }
         });
       });
 

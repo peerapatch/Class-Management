@@ -14,8 +14,8 @@
         <v-container class="mx-5 my-3">
           <v-row>
             <v-col>
-              <v-select
-              outlined
+              <v-autocomplete
+                outlined
                 label="Major"
                 v-model="create_form.major"
                 :items="selectable_major"
@@ -37,11 +37,15 @@
             </v-col>
           </v-row>
 
- 
-          <v-autocomplete label="Lecturer" v-model="create_form.lecturer"  :items="lecturer" item-text="name" outlined
-         return-object/>
+          <v-autocomplete
+            label="Lecturer"
+            v-model="create_form.lecturer"
+            :items="lecturer"
+            item-text="name"
+            outlined
+            return-object
+          />
 
-          
           <v-text-field
             v-model="create_form.subject_code"
             label="Subject Code"
@@ -52,10 +56,14 @@
             label="Subject Name"
             outlined
           />
-          <v-text-field v-model="create_form.section" label="Section" outlined/>
-          <v-text-field v-model="create_form.credit" label="Credit" outlined/>
           <v-text-field
-          outlined
+            v-model="create_form.section"
+            label="Section"
+            outlined
+          />
+          <v-text-field v-model="create_form.credit" label="Credit" outlined />
+          <v-text-field
+            outlined
             v-model="create_form.capacity"
             label="Capacity"
             @change="findMatchedRoom(0)"
@@ -85,7 +93,6 @@
               /></v-col>
               <v-col class="d-flex justify-center">
                 <v-select
-                
                   v-model="create_form.period[0].weekday"
                   :items="days"
                 />
@@ -119,12 +126,12 @@
                 />
               </v-col>
               <v-col align-self="center" class="d-flex justify-center">
-                <v-select
+                <v-autocomplete
                   v-model="create_form.period[0].room"
                   :items="selectable_rooms_first"
                   item-text="classroom_no"
                   item-value="classroom_no"
-                ></v-select>
+                ></v-autocomplete>
               </v-col>
             </v-row>
           </v-container>
@@ -175,12 +182,12 @@
                 />
               </v-col>
               <v-col align-self="center">
-                <v-select
+                <v-autocomplete
                   v-model="create_form.period[1].room"
                   :items="selectable_rooms_second"
                   item-text="classroom_no"
                   item-value="classroom_no"
-                ></v-select>
+                ></v-autocomplete>
               </v-col>
             </v-row>
           </v-container>
@@ -211,12 +218,40 @@ export default {
   components: {
     ClassTimePicker,
   },
-  computed: {
 
+  created() {
+    this.create_form = {
+      major: {},
+      subject_code: "",
+      subject_name: "",
+      lecturer: {},
+      credit: "",
+      capacity: "",
+      section: "",
+      remark: "",
+      period: [
+        {
+          order_no: 0,
+          start: "0:00",
+          finish: "0:00",
+          room: "",
+          weekday: "Mon",
+        },
+        {
+          order_no: 1,
+          start: "0:00",
+          finish: "0:00",
+          room: "",
+          weekday: "Mon",
+        },
+      ],
+    };
+  },
+  computed: {
     ...mapState({
       majors: (state) => state.majors,
       rooms: (state) => state.rooms,
-      lecturer : (state) => state.lecturers,
+      lecturer: (state) => state.lecturers,
 
       selectable_major() {
         return this.$store.state.majors.map((elem) => ({
@@ -252,18 +287,16 @@ export default {
         this.selectable_rooms_second = result;
         console.log(result);
       }
-
-      
     },
     clear_form() {
       this.create_form = {
         major: {},
         subject_code: "",
         subject_name: "",
-        capacity: 0,
+        capacity: "",
         lecturer: {},
-        credit: 0,
-        section: 1,
+        credit: "",
+        section: "",
         remark: "",
 
         year: "",
@@ -329,7 +362,6 @@ export default {
   },
   data() {
     return {
-  
       selectable_rooms_first: [],
       selectable_rooms_second: [],
       days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
@@ -395,8 +427,5 @@ export default {
       isDialogOpen: false,
     };
   },
-
-
-  
 };
 </script>

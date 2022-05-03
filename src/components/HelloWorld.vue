@@ -1,19 +1,19 @@
 <template>
   <v-container>
-    CHILD {{ action }}
+    TEST
+    <slot></slot>
   </v-container>
 </template>
 
 <script>
-  export default {
-    name: 'HelloWorld',
-    props : ['action'],
-    methods : {
-      showAlert() {
-        console.log("TEST")
-        alert('Hello World From Child')
-      }
+export default {
+  name: "HelloWorld",
+  props: ["action"],
+  methods: {
+    showAlert() {
+      console.log("TEST");
+      alert("Hello World From Child");
     },
-    
-  }
+  },
+};
 </script>

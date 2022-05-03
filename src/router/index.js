@@ -5,6 +5,7 @@ import ClassroomManagement from '../views/ClassroomManagement.vue'
 import LecturerManagement from '../views/LecturerManagement.vue'
 import MajorManagement from '../views/MajorManagement.vue'
 import SubjectManagement from '../views/SubjectManagement.vue'
+import SubjectByClassRoom from '../views/SubjectByClassRoom.vue'
 // import Timetable from '../views/Timetable.vue'
 
 Vue.use(VueRouter)
@@ -25,6 +26,11 @@ const routes = [
     path: '/lecturer',
     name: 'LecturerManagement',
     component: LecturerManagement
+  },
+  {
+    path: '/subject_by_classroom',
+    name: 'LecturerManagement',
+    component: SubjectByClassRoom
   },
   {
     path: '/major',

@@ -2,7 +2,8 @@
   <v-container fluid class="ma-10 test">
     <v-row>
       <v-col cols="2"
-        ><v-select
+        ><v-autocomplete
+          outlined
           :items="major_filter"
           item-text="title"
           return-object
@@ -104,7 +105,6 @@ export default {
             element_lv1.year === this.default_faculty.year &&
             element_lv1.major === this.default_faculty.major
           ) {
-            
             if (element_lv2.start !== "0:00" && element_lv2.finish !== "0:00") {
               new_array_result.push({
                 code: element_lv1.subject_code,
@@ -113,9 +113,12 @@ export default {
                   " " +
                   element_lv1.subject_name +
                   " " +
-                
                   "Sec. " +
-                  element_lv1.section + " " + `(${element_lv1.lecturer})` + " " + element_lv2.room  ,
+                  element_lv1.section +
+                  " " +
+                  `(${element_lv1.lecturer})` +
+                  " " +
+                  element_lv2.room,
                 color: subject_color,
                 // yrs: 65,
                 // room: element_lv2.room,

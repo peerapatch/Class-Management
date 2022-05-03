@@ -14,7 +14,7 @@
       <v-sheet>
         <v-container class="pa-10">
           <div class="font-weight-bold">
-            {{ temp.name }} - ({{ temp.faculty }} {{ temp.yrs }})
+            {{ temp.name }} 
           </div>
           <div class="font-weight-bold py-2">{{ temp.room }}</div>
         </v-container>
